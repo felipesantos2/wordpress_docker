@@ -1,29 +1,9 @@
 services:
-  php-for-wordpress:
-    build:
-      context: './docker'
-    image: php:8.4.2-fpm
-    container_name: php_fpm_for_wordpress
-    volumes:
-      - '.:/var/www/html'
-    networks:
-      - php_network
-  nginx:
-    image: nginx:1.27.3-alpine
-    container_name: nginx_server
-    volumes:
-      - './docker/default.conf:/etc/nginx/conf.d/default.conf'
-      - '.:/var/www/html'
-    ports:
-      - "8080:80"
-    networks:
-      - php_network
   mysql:
     image: mysql:8.4.0
     container_name: mysql_server
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wordpress_docker
     volumes:
       - './mysql_data:/var/lib/mysql'
     ports:
