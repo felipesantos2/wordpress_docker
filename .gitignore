@@ -48,3 +48,6 @@ wp-config.php
 #/wp-content/themes
 
 /wp-content
+
+mysql_data
+mysql_data/
