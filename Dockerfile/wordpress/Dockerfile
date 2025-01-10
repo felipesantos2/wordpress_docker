@@ -3,4 +3,5 @@ LABEL maintainer="<Felipe Pinheiro>"
 
 RUN apk update && apk add bash \
         apk add git \
-        apk add vim 
+        apk add vim \
+        apk add apt-get
