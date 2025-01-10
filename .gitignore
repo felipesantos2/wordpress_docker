@@ -1,4 +1,4 @@
-# sudo chmod -R 777 wordpress_docker
+# \Ignorando alguns Arquivos
 composer.phar
 vendor/
 /vendor/
@@ -13,3 +13,9 @@ mysqL_data/
 /mysqL_data/
 /data/
 data/
+
+dbdata/
+/dbdata/
+
+node_modules/
+/node_modules/

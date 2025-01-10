@@ -1,4 +1,22 @@
 services:
+  database:
+    build:
+      context: './Dockerfile/db'
+    image: mariadb:f25
+    container_name: database_w
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - './dbdata:/var/lib/mysql'
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    expose:
+      - 3306
+      - 33060
+
   wordpress:
     build:
       context: './Dockerfile/wordpress'
@@ -16,20 +34,3 @@ services:
       - WORDPRESS_DB_NAME=wordpress
     depends_on:
       - database
-  database:
-    build:
-      context: './Dockerfile/db'
-    image: mariadb:f25
-    container_name: database_w
-    command: '--default-authentication-plugin=mysql_native_password'
-    volumes:
-      - './data:/var/lib/mysql'
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress
-      - MYSQL_PASSWORD=wordpress
-    expose:
-      - 3306
-      - 33060
