@@ -1,7 +1,7 @@
 services:
   database:
     build:
-      context: './Dockerfile/db'
+      context: './docker/db'
     image: mariadb:f25
     container_name: database_w
     command: '--default-authentication-plugin=mysql_native_password'
@@ -19,7 +19,7 @@ services:
 
   wordpress:
     build:
-      context: './Dockerfile/wordpress'
+      context: './docker/wordpress'
     image: wordpress:f25
     container_name: wordpress_w
     volumes:
