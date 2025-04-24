@@ -1,16 +1,56 @@
+name: wpdc
 services:
-  mysql:
-    image: mysql:8.4.0
-    container_name: mysql_server
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - './mysql_data:/var/lib/mysql'
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    depends_on:
+      - mysql
+    restart: always
     ports:
-      - "3360:3306"
+      - 8888:8080
     networks:
       - php_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql80
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress_docker
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - wordpress-mysql:/var/lib/mysql
+    ports:
+      - 3360:3306
+    restart: always
+    networks:
+      - php_network
+
+  wordpress:
+    build:
+      context: .docker/
+      dockerfile: Wordpress.Dockerfile
+    container_name: wordpress
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 8003:80
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=mysql
+      - WORDPRESS_DB_USER=root
+      - WORDPRESS_DB_PASSWORD=root
+      - WORDPRESS_DB_NAME=wordpress_docker
+    networks:
+      - php_network
+    depends_on:
+      - mysql
+
 networks:
   php_network:
     driver: bridge
     name: php_network
+
+volumes:
+  wordpress-mysql:
+    driver: local
