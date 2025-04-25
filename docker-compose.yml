@@ -1,4 +1,4 @@
-name: wpdc
+name: wpdc2
 services:
   adminer:
     image: adminer:latest
@@ -45,6 +45,8 @@ services:
       - php_network
     depends_on:
       - mysql
+
+
 
 networks:
   php_network:
