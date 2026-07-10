@@ -1,8 +1,9 @@
 name: wp
+
 services:
-  database:
-    image: mysql:8.4.5
-    container_name: wp_mysql
+  db:
+    image: mysql:8.0
+    container_name: mysql
     volumes:
       - wp_vol:/var/lib/mysql
     environment:
@@ -10,22 +11,21 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
       MYSQL_RANDOM_ROOT_PASSWORD: 1
+    ports:
+      - '3306:3306'
     networks:
       - default
     command: '--default-authentication-plugin=mysql_native_password'
     restart: always
-    expose:
-      - '3306'
-      - '33060'
 
-  wordpress:
+  wp:
     build:
       context: .
-    container_name: wp
+    container_name: wordpress
     depends_on:
-      - database
+      - db
     volumes:
-      - .:/var/www/html
+      - ./workdir:/var/www/html
     environment:
       WORDPRESS_DB_HOST: database
       WORDPRESS_DB_USER: wordpress
@@ -35,7 +35,9 @@ services:
       - '8000:80'
     networks:
       - default
+    working_dir: '/var/www/html'
     restart: always
+    user: 1000:1000
 
 networks:
   default:
