@@ -1,9 +1,8 @@
-FROM wordpress:latest
+FROM wordpress:7.0.1-php8.4-apache
 
 LABEL maintainer="<github.com/felipesantos2>"
 
-RUN apt update -y
-RUN apt upgrade -y
+RUN apt update -y && apt upgrade -y
 
 RUN apt install -y \
     bash \
@@ -11,7 +10,8 @@ RUN apt install -y \
     nano \
     nodejs \
     npm \
-    curl
+    curl \
+    build-essential
 
 
 RUN apt clean
